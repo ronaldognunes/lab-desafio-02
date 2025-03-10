@@ -1,0 +1,7 @@
+
+### CEP válido
+GET  http://localhost:8081/consulta-cep-servidor/24921692
+
+
+### CEP inválido
+GET  http://localhost:8081/consulta-cep-servidor/249216921

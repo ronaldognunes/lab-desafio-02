@@ -1,0 +1,42 @@
+services:
+  webapi01:
+    image: webapi-01
+    build:
+      context: .
+      dockerfile: Dockerfile.servicoa
+    ports:
+      - "8081:8081"
+    networks:
+      - mynetwork
+
+  webapi02:
+    image: webapi-02
+    build:
+      context: .
+      dockerfile: Dockerfile.servicob
+    ports:
+      - "8080:8080"
+    networks:
+      - mynetwork
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    volumes:
+      - ./.docker/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    command: ["--config", "/etc/otel-collector-config.yaml"]
+    ports:
+      - "4318:4318" # Porta OTLP
+    networks:
+      - mynetwork
+
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"    
+    networks:
+      - mynetwork  
+
+networks:
+  mynetwork:
+    driver: bridge
+ 
